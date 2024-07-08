@@ -1,0 +1,17 @@
+services:
+  SERVICENAME-test:
+    image: valleyforge/SERVICENAME-naive:latest
+    build: Dockerfile.test
+    volumes:
+      # Uncomment below as needed
+      # - data:/data
+      # - resources:/resources
+    healthcheck:
+      test:
+        ["CMD-SHELL", "curl -fsS localhost:8080/health | jq .status | grep UP"]
+
+# Uncomment below as needed
+
+# volumes:
+#   data:
+#   resources:

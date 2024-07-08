@@ -1,0 +1,6 @@
+confluent-kafka==2.3.*
+loguru==0.7.*
+opentelemetry-distro==0.43b0
+opentelemetry-exporter-otlp==1.22.*
+pydantic==2.6.*
+pydantic-settings==2.2.*

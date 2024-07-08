@@ -1,0 +1,4 @@
+-r common.txt
+bandit==1.7.*
+cyclonedx-bom==4.1.*
+ruff==0.2.*

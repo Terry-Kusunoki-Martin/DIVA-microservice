@@ -1,0 +1,7 @@
+FROM python:3.11
+
+RUN pip install confluent-kafka loguru pytest
+
+COPY test_service.py .
+
+ENTRYPOINT [ "pytest", "test_service.py", "--quiet" ]

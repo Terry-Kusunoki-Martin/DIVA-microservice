@@ -1,0 +1,41 @@
+include:
+  - ../../compose.yml
+
+services:
+  tester:
+    image: valleyforge/tester:latest
+    build:
+      dockerfile: Dockerfile.test
+    depends_on:
+      kafka:
+        condition: service_healthy
+
+  kafka:
+    image: bitnami/kafka:3.6.1
+    container_name: kafka
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "bash /bin/healthcheck.sh"]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+    expose:
+      - "9092"
+    volumes:
+      - ./kafka_healthcheck.sh:/bin/healthcheck.sh
+    environment:
+      - KAFKA_CFG_NODE_ID=0
+      - KAFKA_CFG_PROCESS_ROLES=controller,broker
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=0@kafka:9093
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://:9092
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=PLAINTEXT
+      - KAFKA_CFG_MESSAGE_MAX_BYTES=1048588 #Roughly a MegaByte
+      - KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE=true
+      - KAFKA_CFG_NUM_PARTITIONS=12
+
+volumes:
+  data:
+  resources:
