@@ -16,7 +16,7 @@ def enricher():
 
 class TestEnricher:
     def test_normal_text(self, enricher: Enricher):
-        request = Request(original_content="text")
+        request = Request(original_content="text", baggage={"file_type": "image", "file_path": "test_media/test_image_1.png", "media_properties": {"MIME_TYPE": "image/jpg"}"})
         for response in enricher([request]):
             assert response.appended_text == "text goodbye"
 

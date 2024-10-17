@@ -19,7 +19,7 @@ class Enricher:
         pass
 
     @validate_call
-    def __call__(self, requests: list[Request]) -> Generator[Response, None, None]:
+    def __call__(self, requests) -> Generator[Response, None, None]:
         for r in requests:
             yield Response(
                 baggage=r.baggage,
